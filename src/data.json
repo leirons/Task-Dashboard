@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "projectName": "Allosaurus web app",
+    "pm": "/person.png",
+    "status": "On Track",
+    "lastUpdate": "15 Mar 2021, 12:47 PM",
+    "resources": 3,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "10.5k",
+    "archived": true
+  },
+  {
+    "id": 2,
+    "projectName": "Allosaurus web app",
+    "pm": "picture",
+    "status": "On Track",
+    "lastUpdate": "15 Mar 2021, 12:47 PM",
+    "resources": 3,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "10.5k"
+  },
+  {
+    "id": 3,
+    "projectName": "Stegosaurus app",
+    "pm": "picture",
+    "status": "On Hold",
+    "lastUpdate": "17 Mar 2021, 3:15 PM",
+    "resources": 1,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "5.7k"
+  },
+  {
+    "id": 4,
+    "projectName": "Allosaurus web app",
+    "pm": "picture",
+    "status": "On Track",
+    "lastUpdate": "15 Mar 2021, 12:47 PM",
+    "resources": 3,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "10.5k"
+  },
+  {
+    "id": 5,
+    "projectName": "Allosaurus web app",
+    "pm": "picture",
+    "status": "On Track",
+    "lastUpdate": "15 Mar 2021, 12:47 PM",
+    "resources": 3,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "10.5k"
+  },
+  {
+    "id": 6,
+    "projectName": "Allosaurus web app",
+    "pm": "picture",
+    "status": "On Track",
+    "lastUpdate": "15 Mar 2021, 12:47 PM",
+    "resources": 3,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "10.5k"
+  },
+  {
+    "id": 7,
+    "projectName": "Allosaurus web app",
+    "pm": "picture",
+    "status": "On Track",
+    "lastUpdate": "15 Mar 2021, 12:47 PM",
+    "resources": 3,
+    "projectTimeLine": "15 May 2021 > 15 Aug 2021",
+    "estimation": "10.5k"
+  }
+]
