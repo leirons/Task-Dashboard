@@ -22,58 +22,6 @@ import AddProject from "./AddProject";
 import ProjectTimeLine from "./ProjectTimeLine";
 
 
-const status = [
-    {
-        color: "#38A06C",
-        value: "On Track",
-        background: "#E1FCEF"
-    },
-    {
-        color: "#C97A20",
-        value: "Potential Risk",
-        background: "#FCF2E6",
-    },
-    {
-        color: "#687182",
-        value: "On Hold",
-        background: "#E9EDF5;"
-
-    },
-    {
-        color: "#EF5466",
-        value: "At Risk",
-    }
-]
-const statusStyles = {
-    width: 108,
-    height: 20,
-    "On Track": {
-        color: "#38A06C",
-        value: "On Track",
-        background: "#E1FCEF",
-        buttonBackground: "#38A06C",
-    },
-    "Potential Risk": {
-        color: "#AA5B00",
-        value: "Potential Risk",
-        background: "#FCF2E6",
-        buttonBackground: "#C97A20",
-    },
-    "On Hold": {
-        color: "#5A6376",
-        value: "On Hold",
-        background: "#E9EDF5",
-        buttonBackground: "#687182",
-    },
-    "At Risk": {
-        color: "#D1293D",
-        value: "At Risk",
-        background: "#FFEDEF",
-        buttonBackground: "#EF5466",
-    },
-};
-
-
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: "#F7F9FC",
@@ -108,6 +56,7 @@ export default function DataTable(props) {
     const [selectedButton, setSelectedButton] = React.useState(1);
     const [filter, setFilter] = React.useState('All')
     const [action, setAction] = React.useState('');
+    const [menuStatus, setMenuStatus] = React.useState(null)
 
     const [selectAll, setSelectAll] = React.useState(false); // State for header checkbox
     const [selectedRows, setSelectedRows] = React.useState({});
@@ -172,6 +121,13 @@ export default function DataTable(props) {
         setSelectedResourcesId(id)
     }
 
+    const handleOpenMenuStatus= (event, id) => {
+        setMenuResources(event.currentTarget)
+    }
+
+    const closeMenuStatus = () => {
+        setAnchorEl(null)
+    }
     const closeMenuResources = (event) => {
         setMenuResources(null)
     }
@@ -250,6 +206,58 @@ export default function DataTable(props) {
             );
         }
         return null;
+    };
+
+
+    const status = [
+        {
+            color: "#38A06C",
+            value: "On Track",
+            background: "#E1FCEF"
+        },
+        {
+            color: "#C97A20",
+            value: "Potential Risk",
+            background: "#FCF2E6",
+        },
+        {
+            color: "#687182",
+            value: "On Hold",
+            background: "#E9EDF5;"
+
+        },
+        {
+            color: "#EF5466",
+            value: "At Risk",
+        }
+    ]
+    const statusStyles = {
+        width: 108,
+        height: 20,
+        "On Track": {
+            color: "#38A06C",
+            value: "On Track",
+            background: "#E1FCEF",
+            buttonBackground: "#38A06C",
+        },
+        "Potential Risk": {
+            color: "#AA5B00",
+            value: "Potential Risk",
+            background: "#FCF2E6",
+            buttonBackground: "#C97A20",
+        },
+        "On Hold": {
+            color: "#5A6376",
+            value: "On Hold",
+            background: "#E9EDF5",
+            buttonBackground: "#687182",
+        },
+        "At Risk": {
+            color: "#D1293D",
+            value: "At Risk",
+            background: "#FFEDEF",
+            buttonBackground: "#EF5466",
+        },
     };
 
 
@@ -502,7 +510,8 @@ export default function DataTable(props) {
                                             }}>Change Status</span>
                                                 </MenuItem>
                                                 {status.map((rows) => (
-                                                    <MenuItem onClick={() => handleMenuClose(rows.value)}>
+                                                    <MenuItem anchorEl={menuStatus}
+                                                              open={Boolean(menuStatus)} onClick={() => handleMenuClose(rows.value)}>
 
                                                         <span
                                                             style={{
@@ -530,7 +539,7 @@ export default function DataTable(props) {
                                                         background: "#FFFFFF",
                                                         height: "100%"
                                                     }}>
-                                                    <Button sx={{backgroundColor: 'none', color: "#464F60"}}>
+                                                    <Button onClick={closeMenuStatus} sx={{backgroundColor: 'none', color: "#464F60"}}>
                                                         Cancel
                                                     </Button>
                                                     <Button
