@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import AddProject from "./AddProject";
 import ProjectTimeLine from "./ProjectTimeLine";
+import updateTime from "../utils/LastUpdate";
 
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -62,6 +63,14 @@ export default function DataTable(props) {
     const [selectedRows, setSelectedRows] = React.useState({});
     const [numberOfSelectedRows, setNumberOfSelectedRows] = React.useState(0)
 
+
+    props.projectsCount(rows.length)
+
+
+    const handleLastUpdate = () => {
+
+    }
+
     const handleChangeCheckBox = (event) => {
 
         const {checked} = event.target;
@@ -85,7 +94,6 @@ export default function DataTable(props) {
         } else {
             setNumberOfSelectedRows(numberOfSelectedRows - 1)
         }
-        // Update the state of the selected row checkbox
         setSelectedRows((prevSelectedRows) => ({
             ...prevSelectedRows,
             [rowId]: checked,
@@ -95,10 +103,9 @@ export default function DataTable(props) {
 
 
     const countElements = () => {
-        console.log(rows)
-
         return rows.length
     }
+
     const handleGroupClick = (group) => {
         setSelectedGroups((prevSelectedGroups) => {
             if (prevSelectedGroups.includes(group)) {
@@ -121,7 +128,7 @@ export default function DataTable(props) {
         setSelectedResourcesId(id)
     }
 
-    const handleOpenMenuStatus= (event, id) => {
+    const handleOpenMenuStatus = (event, id) => {
         setMenuResources(event.currentTarget)
     }
 
@@ -145,7 +152,7 @@ export default function DataTable(props) {
         setRows((prevRows) => {
             const updatedRows = prevRows.map((row) => {
                 if (row.id === selectedResourcesId) {
-                    return {...row, resources: selectedGroups.length}
+                    return {...row, resources: selectedGroups.length,lastUpdate:updateTime()}
                 }
                 return row
             })
@@ -157,7 +164,7 @@ export default function DataTable(props) {
         setRows((prevRows) => {
             const updatedRows = prevRows.map((row) => {
                 if (row.id === selectedRowId) {
-                    return {...row, status: newStatus};
+                    return {...row, status: newStatus, lastUpdate:updateTime()};
                 }
                 return row;
             });
@@ -300,7 +307,7 @@ export default function DataTable(props) {
     return (
         <Grid container>
 
-            <Grid display="flex" direction="row" alignItems="center" gap="10px" paddingTop="5px">
+            <Grid display="flex" direction="row" alignItems="center" gap="20px" paddingTop="5px">
                 <Grid marginLeft="20px">
                     <Typography>{numberOfSelectedRows} selected</Typography>
                 </Grid>
@@ -323,7 +330,7 @@ export default function DataTable(props) {
                     <Button onClick={handleAction}>Confirm</Button>
                 </Grid>
             </Grid>
-            <Grid item xs={13}>
+            <Grid item xs={13} display="flex" direction="row" alignItems="center" justifyContent="space-between">
                 <ButtonGroup variant="text">
                     <Button
                         style={{
@@ -347,7 +354,7 @@ export default function DataTable(props) {
                             variant={selectedButton === 2 ? 'contained' : 'text'}
                     >
                         Risk<span style={{marginLeft: '4px'}}>{
-                        rows.filter((element) => element.status === "Risk").length
+                        rows.filter((element) => element.status === "At Risk").length
                     }</span>
                     </Button>
                     <Button style={{
@@ -390,10 +397,10 @@ export default function DataTable(props) {
                         rows.filter((element) => element.status === "On Track").length
                     }</span>
                     </Button>
-                    <AddProject initialResources={props.initialResources} initialRows={rows}/>
-
                 </ButtonGroup>
-
+                <Grid>
+                    <AddProject initialResources={props.initialResources} initialRows={rows}/>
+                </Grid>
             </Grid>
 
 
@@ -511,7 +518,8 @@ export default function DataTable(props) {
                                                 </MenuItem>
                                                 {status.map((rows) => (
                                                     <MenuItem anchorEl={menuStatus}
-                                                              open={Boolean(menuStatus)} onClick={() => handleMenuClose(rows.value)}>
+                                                              open={Boolean(menuStatus)}
+                                                              onClick={() => handleMenuClose(rows.value)}>
 
                                                         <span
                                                             style={{
@@ -539,7 +547,8 @@ export default function DataTable(props) {
                                                         background: "#FFFFFF",
                                                         height: "100%"
                                                     }}>
-                                                    <Button onClick={closeMenuStatus} sx={{backgroundColor: 'none', color: "#464F60"}}>
+                                                    <Button onClick={closeMenuStatus}
+                                                            sx={{backgroundColor: 'none', color: "#464F60"}}>
                                                         Cancel
                                                     </Button>
                                                     <Button

@@ -11,14 +11,15 @@ import {
     Typography,
 } from "@mui/material";
 import * as React from 'react';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import parseDate from "../utils/Parse";
+import {Alert} from "@mui/lab";
 
-export default function AddProject(props){
+export default function AddProject(props) {
 
-    const [menuResources,setMenuResources] = React.useState(null)
+    const [menuResources, setMenuResources] = React.useState(null)
     const [selectedValue, setSelectedValue] = React.useState('');
     const [selectedGroups, setSelectedGroups] = React.useState([]);
     const [selectedDate, setSelectedDate] = React.useState(null);
@@ -49,12 +50,28 @@ export default function AddProject(props){
         setMenuResources(event.currentTarget)
     }
 
-    const handleDateChange2 = (date) =>{
+    const handleDateChange2 = (date) => {
         setSelectedDate2(date)
     }
 
-    const handleSubmit = (event) =>{
+
+    function validateDates(date1, date2) {
+        const parsedDate1 = Date.parse(date1);
+        const parsedDate2 = Date.parse(date2);
+
+
+        if (isNaN(parsedDate1) || isNaN(parsedDate2)) {
+            return false
+        }
+
+
+        return parsedDate1 <= parsedDate2;
+    }
+
+
+    const handleSubmit = (event) => {
         event.preventDefault()
+
         const formData = new FormData(event.target);
 
         const rows = props.initialRows
@@ -62,22 +79,26 @@ export default function AddProject(props){
 
         const date1 = parseDate(selectedDate)
         const date2 = parseDate(selectedDate2)
-
+        if (!validateDates(date1, date2)) {
+            alert("Date 1 should not be greater than date 2")
+        }
         const dayRes = date1 + ">" + date2
 
-        const project = {
-            id:rows.length + 1,
-            projectName: formData.get("project-name"),
-            pm:"picture",
-            status:"On Track",
-            resources:selectedGroups.length,
-            estimation:formData.get("project-estimation") + "k",
-            projectTimeLine: dayRes,
-            lastUpdate: "15 Mar 2021, 12:47 PM",
-        }
-        console.log(project)
-        props.initialRows.push(project)
+        let d = new Date()
+        const lastUpdate = parseDate(d)
 
+
+        const project = {
+            id: rows.length + 1,
+            projectName: formData.get("project-name"),
+            pm: "picture",
+            status: "On Track",
+            resources: selectedGroups.length,
+            estimation: formData.get("project-estimation") + "k",
+            projectTimeLine: dayRes,
+            lastUpdate: `${lastUpdate}  ${d.getHours()}:${d.getMinutes()}`,
+        }
+        props.initialRows.push(project)
 
     }
 
@@ -85,36 +106,36 @@ export default function AddProject(props){
         setMenuResources(null)
     }
 
-    return(
+    return (
         <Grid>
             <Button onClick={handleOpenMenuResources}
                     style={{
-                        backgroundColor:"#5E5ADB",
-                        color:"#FFFFFF",
+                        backgroundColor: "#5E5ADB",
+                        color: "#FFFFFF",
                     }}
 
             >Add New Project</Button>
-            <Menu anchorEl={menuResources} open={Boolean(menuResources)}  PaperProps={{
+            <Menu anchorEl={menuResources} open={Boolean(menuResources)} PaperProps={{
                 sx: {
                     background: "#F7F9FC",
-                    width:"440px",
+                    width: "440px",
                     padding: 0,
                     margin: 0,
                     paddingBottom: 0,
-                    display:"flex",
-                    flexDirection:"column"
+                    display: "flex",
+                    flexDirection: "column"
                 }
             }}>
                 <form onSubmit={handleSubmit}>
-                <MenuItem  PaperProps={{
-                    sx: {
-                        background: "#EBEEFA",
-                        width: "440px"
-                    }
-                }}>
-                    <span style={{fontWeight:"bold"}}>Add new project</span>
+                    <MenuItem PaperProps={{
+                        sx: {
+                            background: "#EBEEFA",
+                            width: "440px"
+                        }
+                    }}>
+                        <span style={{fontWeight: "bold"}}>Add new project</span>
 
-                </MenuItem>
+                    </MenuItem>
 
 
                     <MenuItem>
@@ -123,45 +144,44 @@ export default function AddProject(props){
 
                     <MenuItem>
 
-                    <TextField required name="project-name" id="outlined-basic" type="text"
-                               variant="outlined" fullWidth={true}  inputProps={{
-                        style: {
-                            height: "32px",
-                            padding:"2px",
-                        },
-                    }}/>
+                        <TextField required name="project-name" id="outlined-basic" type="text"
+                                   variant="outlined" fullWidth={true} inputProps={{
+                            style: {
+                                height: "32px",
+                                padding: "2px",
+                            },
+                        }}/>
 
-                </MenuItem>
+                    </MenuItem>
                     <MenuItem>
                         <Typography>Project manager PM</Typography>
                     </MenuItem>
                     <MenuItem>
-
-                        <RadioGroup value={selectedValue} onChange={handleRadioChange} style={{
-                            flexDirection:"row",
+                        <RadioGroup aria-required value={selectedValue} onChange={handleRadioChange} style={{
+                            flexDirection: "row",
                         }}>
                             <FormControlLabel
                                 name="project-pm"
                                 value="Leo Gouse"
-                                control={<Radio />}
+                                control={<Radio/>}
                                 label={
-                                    <Typography style={{ fontSize: '15px' }}>Leo Gouse</Typography>
+                                    <Typography style={{fontSize: '15px'}}>Leo Gouse</Typography>
                                 }
                             />
                             <FormControlLabel
                                 name="project-pm"
                                 value="Tatiana Dias"
-                                control={<Radio />}
+                                control={<Radio/>}
                                 label={
-                                    <Typography style={{ fontSize: '15px' }}>Tatiana Dias</Typography>
+                                    <Typography style={{fontSize: '15px'}}>Tatiana Dias</Typography>
                                 }
                             />
                             <FormControlLabel name="project-pm"
-                                value="Roger Vaccaro"
-                                control={<Radio />}
-                                label={
-                                    <Typography style={{ fontSize: '15px' }}>Roger Vaccaro</Typography>
-                                }
+                                              value="Roger Vaccaro"
+                                              control={<Radio/>}
+                                              label={
+                                                  <Typography style={{fontSize: '15px'}}>Roger Vaccaro</Typography>
+                                              }
                             />
                         </RadioGroup>
                     </MenuItem>
@@ -178,8 +198,8 @@ export default function AddProject(props){
                                         <Button
                                             name="resources-data"
                                             style={{
-                                                width:"100px",
-                                                fontSize:"10px"
+                                                width: "100px",
+                                                fontSize: "10px"
                                             }}
                                             variant={isGroupSelected(element) ? 'contained' : 'outlined'}
                                             onClick={() => handleGroupClick(element)}>{element}
@@ -197,21 +217,21 @@ export default function AddProject(props){
                         <Grid container spacing={2} alignItems="center">
 
                             <Grid item>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker  onChange={handleDateChange} sx={{
-                                        width:"180px",
-                                    }} slotProps={{ textField: { size: 'small' } }}
-                                    />
-                            </LocalizationProvider>
-                            </Grid>
-                            <Grid item>
-                                >
-                            </Grid>
-                            <Grid item>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DatePicker onChange={handleDateChange2} slotProps={{ textField: { size: 'small' } }} sx={{
-                                        width:"180px",
-                                    }} />
+                                    <DatePicker required onChange={handleDateChange} sx={{
+                                        width: "180px",
+                                    }} slotProps={{textField: {size: 'small'}}}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+                            <Grid item>
+                            </Grid>
+                            <Grid item>
+                                <LocalizationProvider required dateAdapter={AdapterDayjs}>
+                                    <DatePicker onChange={handleDateChange2} slotProps={{textField: {size: 'small'}}}
+                                                sx={{
+                                                    width: "180px",
+                                                }}/>
                                 </LocalizationProvider>
                             </Grid>
                         </Grid>
@@ -221,28 +241,31 @@ export default function AddProject(props){
                         <Typography>Estimation USD $</Typography>
                     </MenuItem>
                     <MenuItem>
-                        <TextField name="project-estimation" id="outlined-basic" type="text"
-                                   variant="outlined"  required  label="Required"
-                                   fullWidth={true}   defaultValue="US$ 00.00"
+                        <TextField name="project-estimation" id="outlined-basic" type="number"
+                                   variant="outlined" InputProps={{inputProps: {min: 100, max: 1000}}} required
+                                   label="Required"
+                                   fullWidth={true} defaultValue="00"
                                    inputProps={{
-                            style: {
-                                height: "32px",
-                                padding:"2px",
-                            },
-                        }}/>
+                                       style: {
+                                           height: "32px",
+                                           padding: "2px",
+                                       },
+                                   }}/>
                     </MenuItem>
 
 
-                    <MenuItem>
-                    <Button type="submit" variant="contained" color="primary" style={{ marginTop: 10 }}>
-                        Submit
-                    </Button>
-                    </MenuItem>
-                    <MenuItem>
-                        <Button  onClick={closeMenuResources}>
-                            Cancel
-                        </Button>
-                    </MenuItem>
+                    <Grid display="flex" direction="row" alignItems="center">
+                        <MenuItem>
+                            <Button type="submit" variant="contained" color="primary">
+                                Submit
+                            </Button>
+                        </MenuItem>
+                        <MenuItem>
+                            <Button type="cancel" variant="contained" color="primary" onClick={closeMenuResources}>
+                                Cancel
+                            </Button>
+                        </MenuItem>
+                    </Grid>
                 </form>
             </Menu>
         </Grid>

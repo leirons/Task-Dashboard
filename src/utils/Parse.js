@@ -1,4 +1,4 @@
-function parseDate(dateToParse){
+function parseDate(dateToParse) {
     const date = Date.parse(dateToParse)
 
     const formattedDate = new Date(date).toLocaleDateString("en-GB");
@@ -11,4 +11,5 @@ function parseDate(dateToParse){
     return `${day} ${monthName} ${year}`
 
 }
+
 export default parseDate
