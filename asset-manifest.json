@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/leirons/Task-Dashboard/static/js/main.966e00e4.js",
+    "static/js/787.7534381d.chunk.js": "/leirons/Task-Dashboard/static/js/787.7534381d.chunk.js",
+    "index.html": "/leirons/Task-Dashboard/index.html",
+    "main.966e00e4.js.map": "/leirons/Task-Dashboard/static/js/main.966e00e4.js.map",
+    "787.7534381d.chunk.js.map": "/leirons/Task-Dashboard/static/js/787.7534381d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.966e00e4.js"
+  ]
+}
