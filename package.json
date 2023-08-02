@@ -1,5 +1,5 @@
 {
-  "homepage": "http://github.com/leirons/Task-Dashboard",
+  "homepage": "http://leirons.github.io/Task-Dashboard",
   "name": "untitled13",
   "version": "0.1.0",
   "private": true,
@@ -48,7 +48,6 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0",
-    "sass": "^1.64.1"
+    "gh-pages": "^5.0.0"
   }
 }
